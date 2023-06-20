@@ -29,76 +29,64 @@
 
             <ui:define name="contenido">
 
-                <h1>Bienvenido al perfil de 
-                    <h:outputLabel value="#{authController.usuario.nombre}"></h:outputLabel>
-                </h1>
-                <hr/>
-                <h2>Datos</h2>
-                <p>
-                </p>
-
-                <table class="table table-sm table-hover" title="Usuario">
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                        <th>Usuario</th>
-                        <th>Contraseña</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h:outputLabel value="#{authController.usuario.nombre}" ></h:outputLabel>
-
-                        </td>
-                        <td>
-                            <h:outputLabel value="#{authController.usuario.email}" ></h:outputLabel>
-
-                        </td>
-                        <td>
-                            <h:outputLabel value="#{authController.usuario.user}" ></h:outputLabel>
-
-                        </td>
-                        <td>
-                            <h:outputLabel value="#{authController.usuario.pass}"></h:outputLabel>
-
-                        </td>
-                    </tr>
-                </table>
-                <hr/>
-                <div>
-                    <hr/>
-                    <div class="d-flex" style="justify-content: center">
-
-
-                        <div class="card">
-                            <h:form>
-                                <div class="card-header">
-                                    <h5>
-                                        <h:outputLabel value="Postear" ></h:outputLabel>
-                                    </h5>
-                                </div>
-                                <div class="card-body">
-
-                                    <h:panelGrid columns="2">
-                                        <h:outputLabel value="Titulo: " ></h:outputLabel>
-                                        <h:inputText value="#{usuarioBean.blog.titulo}" id="titulo" size="50"></h:inputText>
-
-                                        <h:outputLabel value="Contenido" ></h:outputLabel>
-                                        <h:inputTextarea value="#{usuarioBean.blog.contenido}" cols="60"></h:inputTextarea>
-
-
-                                    </h:panelGrid>
-
-                                </div>
-                                <div class="card-footer">
-                                    <h:commandButton class="btn btn-sm btn-info" value="Postear" action="#{usuarioBean.postear(authController.usuario)}" ></h:commandButton>
-                                </div>
-                            </h:form>
+                <div class="p-3 m-10 shadow-sm mb-5">
+                    <h1>
+                        <h:outputLabel value="Perfil del Usuario" />
+                    </h1>
+                    <div style="display: flex; align-items: center"> 
+                        <div>
+                            <h:graphicImage value="./imagenes/user.png" width="7%" alt="Foto de perfil" />
+                            <h:outputLabel value="Bienvenido/a #{authController.usuario.nombre}"></h:outputLabel>
                         </div>
-
-
                     </div>
-                    <hr/>
-                    <h3>Mis Posteos</h3>
+                </div>
+
+                <div class="p-3 m-10 shadow">
+                    <h3>
+                        <h:outputLabel value="Información del perfil:" />
+                    </h3>
+                    <p><b>Nombre: </b><h:outputLabel value="#{authController.usuario.nombre}" ></h:outputLabel></p>
+                    <p><b>Descripción: </b>Soy #{authController.usuario.nombre}, un apasionado desarrollador de software con amplia experiencia en desarrollo web. Me destaco en tecnologías como Java y JSF, creando aplicaciones robustas y funcionales. Con sólidos conocimientos en ciencias de la computación, lidero proyectos desafiantes, colaboro estrechamente con clientes y entrego resultados excepcionales. Mi enfoque metódico y habilidad para resolver problemas complejos me han permitido ofrecer soluciones eficientes y de alta calidad. Soy un comunicador efectivo, trabajo en equipos multidisciplinarios y siempre estoy actualizado sobre las últimas tendencias tecnológicas. Mi pasión y compromiso me convierten en un valioso activo para cualquier proyecto.</p>
+                    <p><b>Email: </b><h:outputLabel value="#{authController.usuario.email}" ></h:outputLabel></p>
+
+                </div>
+                <hr/>
+
+                <hr/>
+                <div class="d-flex p-3 m-10 shadow" style="justify-content: center">
+
+
+                    <div class="card">
+                        <h:form>
+                            <div class="card-header">
+                                <h5>
+                                    <h:outputLabel value="Postear"></h:outputLabel>
+                                </h5>
+                            </div>
+                            <div class="card-body">
+
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel value="Titulo: " ></h:outputLabel>
+                                    <h:inputText value="#{usuarioBean.blog.titulo}" id="titulo" size="50"></h:inputText>
+
+                                    <h:outputLabel value="Contenido" ></h:outputLabel>
+                                    <h:inputTextarea value="#{usuarioBean.blog.contenido}" cols="60"></h:inputTextarea>
+
+
+                                </h:panelGrid>
+
+                            </div>
+                            <div class="card-footer">
+                                <h:commandButton class="btn btn-sm btn-info" value="Postear" action="#{usuarioBean.postear(authController.usuario)}" ></h:commandButton>
+                            </div>
+                        </h:form>
+                    </div>
+
+
+                </div>
+                <hr/>
+                <div class="p-3 m-10 shadow">
+                    <h3 style="text-align: center">Mis Posteos</h3>
                     <hr/>
                     <div class="d-flex" style="justify-content: center">
                         <h:dataTable  value="#{blogBean.posteosDelUsuario(authController.usuario)}" var="posteo" class="col-9">
@@ -125,7 +113,9 @@
                                             <h:panelGrid columns="1" >    
                                                 <h:inputTextarea value="#{comentarioBean.comentario.contenido}" cols="60" rows="2"></h:inputTextarea>
                                                 <h:commandButton class="btn btn-sm btn-info" value="Comentar" action="#{comentarioBean.comentar(posteo.id, authController.usuario.id)}"></h:commandButton>
-                                                <h:commandButton class="btn btn-sm btn-warning" value="Eliminar" action="#{blogBean.eliminarBlog(posteo)}"></h:commandButton>
+                                                <h:commandButton class="btn btn-sm btn-danger" value="Eliminar" action="#{blogBean.eliminarBlog(posteo)}"></h:commandButton>
+                                                <h:commandButton class="btn btn-sm btn-warning" value="Editar" action="#{blogBean.editarBlog(posteo)}"></h:commandButton>
+
                                             </h:panelGrid>
                                         </h:form>
                                         <hr/>

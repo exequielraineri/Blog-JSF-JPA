@@ -48,7 +48,7 @@ public class comentarioBean {
 
         entityManager.persist(comentario);
         comentario = new Comentario();
-        return "perfil";
+        return "inicio";
     }
 
     public EntityManager getEntityManager() {

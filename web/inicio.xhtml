@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -51,7 +52,8 @@
                                         <h:form>
                                             <h:panelGrid columns="1">
                                                 <h:inputTextarea value="#{comentarioBean.comentario.contenido}" />
-                                                <h:commandButton class="btn btn-sm btn-info" value="Comentar" action="#{comentarioBean.comentar(posteo.id, authController.usuario.id)}" />
+                                                <h:commandButton class="btn btn-sm btn-info" value="Comentar" action="#{comentarioBean.comentar(posteo.id, authController.usuario.id)}"></h:commandButton>
+                                                
                                             </h:panelGrid>
                                         </h:form>
                                         

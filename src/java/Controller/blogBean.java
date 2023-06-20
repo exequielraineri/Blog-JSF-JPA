@@ -124,5 +124,19 @@ public class blogBean {
         Blog b = entityManager.merge(p); // Utiliza el parámetro 'p' en lugar de 'blogEntity'
         entityManager.remove(b);
     }
+    
+    
+    public String editarBlog(Blog p){
+        Blog b = entityManager.merge(p);
+        blog=b;
+        return "editarBlog";
+    }
+    
+    
+    
+    public String guardarModificacion(Blog p){
+        entityManager.merge(p);
+        return "perfil";
+    }
 
 }
