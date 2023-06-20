@@ -2,8 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 
 
@@ -13,7 +13,7 @@
 
 
         <script>
-            function mostrar(idtabla) {
+            function mostrarTabla(idtabla) {
                 var tabla = document.getElementById(idtabla);
                 if (tabla.style.display === "none") {
                     tabla.style.display = "block";
@@ -35,80 +35,125 @@
                 <hr/>
                 <h2>Datos</h2>
                 <p>
-                    <h:outputLabel value="Nombre: #{authController.usuario.nombre}" ></h:outputLabel><br/>
-                    <h:outputLabel value="Email: #{authController.usuario.email}" ></h:outputLabel><br/>
-                    <h:outputLabel value="Usuario: #{authController.usuario.user}" ></h:outputLabel><br/>
-                    <h:outputLabel value="Contraseña: #{authController.usuario.pass}"></h:outputLabel><br/>
                 </p>
+
+                <table class="table table-sm table-hover" title="Usuario">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Usuario</th>
+                        <th>Contraseña</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputLabel value="#{authController.usuario.nombre}" ></h:outputLabel>
+
+                        </td>
+                        <td>
+                            <h:outputLabel value="#{authController.usuario.email}" ></h:outputLabel>
+
+                        </td>
+                        <td>
+                            <h:outputLabel value="#{authController.usuario.user}" ></h:outputLabel>
+
+                        </td>
+                        <td>
+                            <h:outputLabel value="#{authController.usuario.pass}"></h:outputLabel>
+
+                        </td>
+                    </tr>
+                </table>
                 <hr/>
                 <div>
                     <hr/>
-                    <h5>
-                        <h:outputLabel value="Postear" ></h:outputLabel>
-                        <h:form>
-                            <h:panelGrid columns="2">
+                    <div class="d-flex" style="justify-content: center">
 
 
-                                <h:outputLabel value="Titulo: " ></h:outputLabel>
-                                <h:inputText value="#{usuarioBean.blog.titulo}" id="titulo" ></h:inputText>
-
-                                <h:outputLabel value="Contenido" ></h:outputLabel>
-                                <h:inputTextarea value="#{usuarioBean.blog.contenido}" ></h:inputTextarea>
-
-                                <h:commandButton value="Postear" action="#{usuarioBean.postear}" ></h:commandButton>
-                            </h:panelGrid>
-                        </h:form>
-                    </h5>
-                    <hr/>
-                    <h3>Posteos recientes</h3>
-                    <h:dataTable value="#{blogBean.posteosDelUsuario(authController.usuario)}" var="posteo">    
-                        <h:column>
-                            <h3>
-                                <h:outputLabel value="Titulo: #{posteo.titulo}" ></h:outputLabel>
-                            </h3>
-                            <p>
-                                <h:outputLabel value="Usuario: #{posteo.idUsuario.nombre}"></h:outputLabel>
-                            </p>
-                            <cite>
-                                <h:outputLabel value="#{posteo.mostrarFecha()}"></h:outputLabel>
-
-                            </cite>
-                            <p>
-                                <h:outputLabel value="#{posteo.contenido}"></h:outputLabel>
-
-                            </p>
-                            <hr/>
+                        <div class="card">
                             <h:form>
-                                <h:panelGrid columns="1" >    
-                                    <h:inputTextarea value="#{comentarioBean.comentario.contenido}"></h:inputTextarea>
-                                    <h:commandButton value="Comentar" action="#{comentarioBean.comentar(posteo.id, authController.usuario.id)}"></h:commandButton>
-                                </h:panelGrid>
-                            </h:form>
-                            <div>
-                                <button onclick="mostrar(#{posteo.id})">Comentarios (#{blogBean.lista_comentarios(posteo.id).size()})</button>
-
-                                <div id="#{posteo.id}" style="display: none">
-                                    <h:dataTable value="#{blogBean.lista_comentarios(posteo.id)}" var="c">
-                                        <h:column>
-                                            <p>
-                                                <b><h:outputLabel value="#{c.idUsuario.nombre}: " /> </b>
-                                                <h:outputLabel value="#{c.contenido}"/>
-                                                <br/>
-                                                <cite>
-                                                    <h:outputLabel value="#{c.mostrarFecha()}" />
-                                                </cite>
-                                            </p>
-                                        </h:column>
-                                    </h:dataTable>
+                                <div class="card-header">
+                                    <h5>
+                                        <h:outputLabel value="Postear" ></h:outputLabel>
+                                    </h5>
                                 </div>
+                                <div class="card-body">
 
-                            </div>
+                                    <h:panelGrid columns="2">
+                                        <h:outputLabel value="Titulo: " ></h:outputLabel>
+                                        <h:inputText value="#{usuarioBean.blog.titulo}" id="titulo" size="50"></h:inputText>
+
+                                        <h:outputLabel value="Contenido" ></h:outputLabel>
+                                        <h:inputTextarea value="#{usuarioBean.blog.contenido}" cols="60"></h:inputTextarea>
+
+
+                                    </h:panelGrid>
+
+                                </div>
+                                <div class="card-footer">
+                                    <h:commandButton class="btn btn-sm btn-info" value="Postear" action="#{usuarioBean.postear(authController.usuario)}" ></h:commandButton>
+                                </div>
+                            </h:form>
+                        </div>
+
+
+                    </div>
+                    <hr/>
+                    <h3>Mis Posteos</h3>
+                    <hr/>
+                    <div class="d-flex" style="justify-content: center">
+                        <h:dataTable  value="#{blogBean.posteosDelUsuario(authController.usuario)}" var="posteo" class="col-9">
+                            <h:column>
+                                <div class="card shadow-sm mb-5">
+                                    <div class="card-header">
+                                        <h4>
+                                            <h:outputLabel value="#{posteo.titulo}" ></h:outputLabel>
+                                        </h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <p><b><h:outputLabel value="#{posteo.idUsuario.nombre}"></h:outputLabel></b>
+                                            <br/>
+                                            <h:outputLabel value="#{posteo.contenido}"></h:outputLabel>
+                                        </p>
+                                        <div style="display: flex; justify-content: flex-end">
+                                            <cite>
+                                                <h:outputLabel value=" #{posteo.mostrarFecha()}"></h:outputLabel>
+                                            </cite>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <h:form>
+                                            <h:panelGrid columns="1" >    
+                                                <h:inputTextarea value="#{comentarioBean.comentario.contenido}" cols="60" rows="2"></h:inputTextarea>
+                                                <h:commandButton class="btn btn-sm btn-info" value="Comentar" action="#{comentarioBean.comentar(posteo.id, authController.usuario.id)}"></h:commandButton>
+                                                <h:commandButton class="btn btn-sm btn-warning" value="Eliminar" action="#{blogBean.eliminarBlog(posteo)}"></h:commandButton>
+                                            </h:panelGrid>
+                                        </h:form>
+                                        <hr/>
+                                        <button class="btn btn-sm btn-secondary" onclick="mostrar(#{posteo.id})">Comentarios (#{blogBean.lista_comentarios(posteo.id).size()})</button>
+
+                                        <div id="#{posteo.id}" style="display: none;">
+                                            <h:dataTable value="#{blogBean.lista_comentarios(posteo.id)}" var="c">
+                                                <h:column>
+                                                    <p class="comentario">
+                                                        <b><h:outputLabel value="#{c.idUsuario.nombre}: " /> </b>
+                                                        <h:outputLabel value="#{c.contenido}"/>
+                                                        <br/>
+                                                        <cite>
+                                                            <h:outputLabel value="#{c.mostrarFecha()}" />
+                                                        </cite>
+                                                    </p>
+                                                    <hr width="70%" />
+                                                </h:column>
+                                            </h:dataTable>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:column>
+
                             <hr/>
-                        </h:column>
 
-                        <hr/>
-
-                    </h:dataTable>
+                        </h:dataTable>
+                    </div>
                 </div>
             </ui:define>
 

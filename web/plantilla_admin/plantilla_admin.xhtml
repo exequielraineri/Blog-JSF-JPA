@@ -17,34 +17,59 @@
 
         <!-- Latest compiled JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"/>
+        <script>
+            function mostrar(idtabla) {
+                var tabla = document.getElementById(idtabla);
+                if (tabla.style.display === "none") {
+                    tabla.style.display = "block";
+                } else {
+                    tabla.style.display = "none";
+                }
+            }
+
+        </script>
+        <style>
+            body{
+                background-color: #F5F5F5;
+            }
+            
+            h4{
+               font-family: serif; 
+            }
+            
+            .comentario{
+                font-family: monospace;
+            }
+
+        </style>
+
     </h:head>
     <h:body>
-        <div>
 
-            <!-- Grey with black text -->
-            <nav class="navbar navbar-expand-sm bg-light navbar-light">
+
+        <!-- Grey with black text -->
+        <nav class="navbar navbar-expand-sm bg-light navbar-light">
+            <h:form>
                 <ul class="navbar-nav">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Inicio</a>
+                        <h:commandLink class="nav-link" value="Inicio" action="#{authController.inicio()}"></h:commandLink>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Perfil</a>
+                        <h:commandLink class="nav-link" value="Perfil" action="#{authController.perfil()}"></h:commandLink>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Cerrar Sesion</a>
+                        <h:commandLink class="nav-link" value="Cerrar Sesión" action="#{authController.cerrarSession()}"></h:commandLink>
                     </li>
                 </ul>
-            </nav>
+            </h:form>
+        </nav>
 
-        </div>
-        <div>
+
+        <div class="container">
             <ui:insert name="contenido" />
         </div>
-        <div>
-            <p><center>
-                    &copy; Derechos Reservados. Exequiel Raineri 2023
-                </center>
-            </p>
+        <div class="bg-secondary">
+            <h:outputText value="&copy; Derechos Reservados. Exequiel Raineri 2023" style="text-align:center" />
         </div>
     </h:body>
 </html>

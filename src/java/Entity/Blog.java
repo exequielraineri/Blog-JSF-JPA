@@ -5,12 +5,12 @@
  */
 package Entity;
 
+import com.sun.org.apache.bcel.internal.generic.AASTORE;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
+import javax.mail.internet.MailDateFormat;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,18 +20,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Exequiel
+ * @author ADMIN
  */
 @Entity
 @Table(name = "blog")
@@ -39,9 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Blog.findAll", query = "SELECT b FROM Blog b")
     , @NamedQuery(name = "Blog.findById", query = "SELECT b FROM Blog b WHERE b.id = :id")
-    , @NamedQuery(name = "Blog.findByTitulo", query = "SELECT b FROM Blog b WHERE b.titulo = :titulo")
     , @NamedQuery(name = "Blog.findByContenido", query = "SELECT b FROM Blog b WHERE b.contenido = :contenido")
-    , @NamedQuery(name = "Blog.findByFechaPublicacion", query = "SELECT b FROM Blog b WHERE b.fechaPublicacion = :fechaPublicacion")})
+    , @NamedQuery(name = "Blog.findByFechaPublicacion", query = "SELECT b FROM Blog b WHERE b.fechaPublicacion = :fechaPublicacion")
+    , @NamedQuery(name = "Blog.findByTitulo", query = "SELECT b FROM Blog b WHERE b.titulo = :titulo")})
 public class Blog implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,26 +47,18 @@ public class Blog implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "titulo")
-    private String titulo;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 200)
+    @Size(max = 255)
     @Column(name = "contenido")
     private String contenido;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "fechaPublicacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaPublicacion;
+    @Size(max = 255)
+    @Column(name = "titulo")
+    private String titulo;
     @JoinColumn(name = "id_usuario", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Usuario idUsuario;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "blog")
-    private List<Comentario> comentarioList;
 
     public Blog() {
     }
@@ -78,27 +67,12 @@ public class Blog implements Serializable {
         this.id = id;
     }
 
-    public Blog(Integer id, String titulo, String contenido, Date fechaPublicacion) {
-        this.id = id;
-        this.titulo = titulo;
-        this.contenido = contenido;
-        this.fechaPublicacion = fechaPublicacion;
-    }
-
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
     }
 
     public String getContenido() {
@@ -113,31 +87,24 @@ public class Blog implements Serializable {
         return fechaPublicacion;
     }
 
-    public String mostrarFecha(){
-        SimpleDateFormat sf=new SimpleDateFormat("dd-MM-yyyy  HH:mm");
-        return sf.format(fechaPublicacion);
-    }
-    
-    
     public void setFechaPublicacion(Date fechaPublicacion) {
         this.fechaPublicacion = fechaPublicacion;
     }
 
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+    
     public Usuario getIdUsuario() {
         return idUsuario;
     }
 
     public void setIdUsuario(Usuario idUsuario) {
         this.idUsuario = idUsuario;
-    }
-
-    @XmlTransient
-    public List<Comentario> getComentarioList() {
-        return comentarioList;
-    }
-
-    public void setComentarioList(List<Comentario> comentarioList) {
-        this.comentarioList = comentarioList;
     }
 
     @Override
@@ -164,5 +131,12 @@ public class Blog implements Serializable {
     public String toString() {
         return "Entity.Blog[ id=" + id + " ]";
     }
+    
+    
+    public String mostrarFecha(){
+        SimpleDateFormat sf=new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        return sf.format(fechaPublicacion);
+    }
+    
     
 }

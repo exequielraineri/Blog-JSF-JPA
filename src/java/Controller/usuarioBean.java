@@ -25,6 +25,7 @@ import javax.persistence.TypedQuery;
 @ManagedBean
 public class usuarioBean {
 
+    
     private Usuario usuario = new Usuario();
 
     private Blog blog = new Blog();
@@ -36,16 +37,18 @@ public class usuarioBean {
     private EntityManager entityManager;
 
     public Usuario obteneruUsuario(String user) {
-        TypedQuery<Usuario> sql = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.user = :user", Usuario.class);
+        Query sql = entityManager.createNamedQuery("Usuario.findByUser");
         sql.setParameter("user", user);
-        List<Usuario> usuarios = new ArrayList<>();
-        usuarios = sql.getResultList();
+        List<Usuario> usuarios;
+        usuarios=sql.getResultList();
+        
+        //Usuario u = (Usuario) sql.getSingleResult();
+        
         if (usuarios.isEmpty()) {
             System.out.println("ES NULO");
             return null;
         } else {
             System.out.println("NO ES NULO");
-            usuario = usuarios.get(0);
             return usuarios.get(0);
         }
 
@@ -81,13 +84,13 @@ public class usuarioBean {
         entityManager.persist(u);
     }
 
-    public String postear() {
+    public String postear(Usuario u) {
         Date fechaActual = new Date();
         blog.setFechaPublicacion(fechaActual);
-        blog.setIdUsuario(usuario);
-
+        blog.setIdUsuario(u);
         blogBean.postear(blog);
         blog = new Blog();
+
         return "perfil";
     }
 

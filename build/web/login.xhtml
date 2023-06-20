@@ -11,12 +11,14 @@
             <h:panelGrid columns="2">
 
                 <h:outputLabel value="Usuario:" for="user"></h:outputLabel>
-                <h:inputText value="#{authController.user}" id="user" requiredMessage="Ingrese usuario" required="true"></h:inputText>
+                <h:inputText value="#{authController.usuario.user}" id="user" requiredMessage="Ingrese usuario" required="true"></h:inputText>
                 <h:outputLabel value="Contraseña:" for="pass"></h:outputLabel>
-                <h:inputSecret value="#{authController.pass}"  id="pass" requiredMessage="Ingrese pass" required="true" ></h:inputSecret>
+                <h:inputSecret value="#{authController.usuario.pass}"  id="pass" requiredMessage="Ingrese pass" required="true" ></h:inputSecret>
 
                 <h:commandButton action="#{authController.iniciar}" value="Iniciar" ></h:commandButton>
-                <h:messages></h:messages>
+                <h:messages>
+                    <h:outputLabel value="#{authController.mensajeLogin}" ></h:outputLabel>
+                </h:messages>
             </h:panelGrid>
 
         </h:form>

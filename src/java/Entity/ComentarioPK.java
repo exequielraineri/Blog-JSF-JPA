@@ -9,36 +9,31 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Exequiel
+ * @author ADMIN
  */
 @Embeddable
 public class ComentarioPK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "id")
-    private int id;
-    @Basic(optional = false)
     @NotNull
     @Column(name = "id_blog")
     private int idBlog;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "id")
+    private int id;
 
     public ComentarioPK() {
     }
 
-    public ComentarioPK(int id, int idBlog) {
-        this.id = id;
+    public ComentarioPK(int idBlog, int id) {
         this.idBlog = idBlog;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
         this.id = id;
     }
 
@@ -50,11 +45,19 @@ public class ComentarioPK implements Serializable {
         this.idBlog = idBlog;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) id;
         hash += (int) idBlog;
+        hash += (int) id;
         return hash;
     }
 
@@ -65,10 +68,10 @@ public class ComentarioPK implements Serializable {
             return false;
         }
         ComentarioPK other = (ComentarioPK) object;
-        if (this.id != other.id) {
+        if (this.idBlog != other.idBlog) {
             return false;
         }
-        if (this.idBlog != other.idBlog) {
+        if (this.id != other.id) {
             return false;
         }
         return true;
@@ -76,7 +79,7 @@ public class ComentarioPK implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.ComentarioPK[ id=" + id + ", idBlog=" + idBlog + " ]";
+        return "Entity.ComentarioPK[ idBlog=" + idBlog + ", id=" + id + " ]";
     }
     
 }

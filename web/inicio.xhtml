@@ -2,65 +2,98 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <body>
 
         <ui:composition template="./plantilla_admin/plantilla_admin.xhtml">
 
             <ui:define name="contenido">
-                
-                <h2>Inicio</h2>
-                <hr/>
-                <h3>Posteos Mas comentados</h3>
-                 <h:dataTable value="#{blogBean.posteosMasComentados()}" var="posteo">    
-                        <h:column>
-                            <h3>
-                                <h:outputLabel value="Titulo: #{posteo.titulo}" ></h:outputLabel>
-                            </h3>
-                            <p>
-                                <h:outputLabel value="Usuario: #{posteo.idUsuario.nombre}"></h:outputLabel>
-                            </p>
-                            <cite>
-                                <h:outputLabel value="#{posteo.mostrarFecha()}"></h:outputLabel>
 
-                            </cite>
-                            <p>
-                                <h:outputLabel value="#{posteo.contenido}"></h:outputLabel>
 
-                            </p>
-                            <hr/>
-                            <h:form>
-                                <h:panelGrid columns="1" >    
-                                    <h:inputTextarea value="#{comentarioBean.comentario.contenido}"></h:inputTextarea>
-                                    <h:commandButton value="Comentar" action="#{comentarioBean.comentar(posteo.id, authController.usuario.id)}"></h:commandButton>
-                                </h:panelGrid>
-                            </h:form>
-                            <div>
-                                <button onclick="mostrar(#{posteo.id})">Comentarios (#{blogBean.lista_comentarios(posteo.id).size()})</button>
 
-                                <div id="#{posteo.id}" style="display: none">
-                                    <h:dataTable value="#{blogBean.lista_comentarios(posteo.id)}" var="c">
-                                        <h:column>
-                                            <p>
-                                                <b><h:outputLabel value="#{c.idUsuario.nombre}: " /> </b>
-                                                <h:outputLabel value="#{c.contenido}"/>
-                                                <br/>
-                                                <cite>
-                                                    <h:outputLabel value="#{c.mostrarFecha()}" />
-                                                </cite>
-                                            </p>
-                                        </h:column>
-                                    </h:dataTable>
+
+
+
+
+                <div class="container">
+                    <h2>Últimos blogs</h2>
+                    <hr/>
+                    <div class="row" style="display: flex;justify-content: space-between">
+                        <c:forEach items="#{blogBean.posteosMasComentados()}" var="posteo" varStatus="loop">
+                            <div class="col-6 mb-5">
+                                <div class="card shadow-sm">
+                                    <div class="card-header">
+                                        <h4 class="card-title">
+                                            <h:outputLabel value="#{posteo.titulo}" />
+                                        </h4>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            <b>
+                                                <h:outputLabel value="#{posteo.idUsuario.nombre}" />
+                                            </b>
+                                            <br/>
+                                            <h:outputLabel value="#{posteo.contenido}" />
+                                        </p>
+                                        <div style="display: flex; justify-content: flex-end">
+                                            <cite>
+                                                <h:outputLabel value="#{posteo.mostrarFecha()}" />
+                                            </cite>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="card-footer">
+                                        <h:form>
+                                            <h:panelGrid columns="1">
+                                                <h:inputTextarea value="#{comentarioBean.comentario.contenido}" />
+                                                <h:commandButton class="btn btn-sm btn-info" value="Comentar" action="#{comentarioBean.comentar(posteo.id, authController.usuario.id)}" />
+                                            </h:panelGrid>
+                                        </h:form>
+                                        
+                                        <button class="btn btn-sm btn-secondary" onclick="mostrar(#{posteo.id})">Comentarios (#{blogBean.lista_comentarios(posteo.id).size()})</button>
+
+                                        <div id="#{posteo.id}" style="display: none" class="container">
+                                            <h:dataTable value="#{blogBean.lista_comentarios(posteo.id)}" var="c" style="width: 100%">
+                                                <h:column class="media ">
+                                                    <div class="media-body">
+                                                        <p class="comentario">
+                                                            <b>
+                                                                <h:outputLabel value="#{c.idUsuario.nombre}: &nbsp;" />
+                                                            </b>
+                                                            <h:outputLabel value="#{c.contenido}"/>
+                                                        </p>
+                                                        <div style="display: flex; justify-content: flex-end">
+                                                            <cite>
+                                                                <h:outputLabel value="#{c.mostrarFecha()} " />
+                                                            </cite>
+                                                        </div>
+                                                    </div>
+                                                    <hr width="70%" />
+                                                </h:column>
+                                            </h:dataTable>
+                                        </div>
+                                    </div>
                                 </div>
-
                             </div>
-                            <hr/>
-                        </h:column>
+                        </c:forEach>
+                    </div>
 
-                        <hr/>
 
-                    </h:dataTable>
+
+
+
+                    <hr/>
+
+
+
+
+                </div>
+
             </ui:define>
 
         </ui:composition>

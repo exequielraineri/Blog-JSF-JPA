@@ -9,8 +9,10 @@ import Entity.Blog;
 import Entity.Comentario;
 import Entity.ComentarioPK;
 import Entity.Usuario;
+import com.sun.javafx.css.Combinator;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Named;
@@ -27,30 +29,27 @@ import javax.persistence.Query;
 @ManagedBean
 public class comentarioBean {
 
-    private Comentario comentario=new Comentario();
-    
+    private Comentario comentario = new Comentario();
+
     @PersistenceContext
     private EntityManager entityManager;
-    
-    public String comentar(int id_blog,int id_usuario){
+
+    public String comentar(int id_blog, int id_usuario) {
         //Query sql=entityManager.createNamedQuery("Blog.findById");
         //sql.setParameter("id", id_blog);
-        Blog blog=entityManager.find(Blog.class, id_blog);
-        comentario.setBlog(blog);
-        ComentarioPK cpk=new ComentarioPK();
+        Blog blog = entityManager.find(Blog.class, id_blog);
+        ComentarioPK cpk = new ComentarioPK();
         cpk.setIdBlog(blog.getId());
         comentario.setComentarioPK(cpk);
         comentario.setContenido(comentario.getContenido());
         comentario.setFechaPublicacion(new Date());
-        Usuario usuario=entityManager.find(Usuario.class, id_usuario);
+        Usuario usuario = entityManager.find(Usuario.class, id_usuario);
         comentario.setIdUsuario(usuario);
-        
+
         entityManager.persist(comentario);
-        comentario=new Comentario();
+        comentario = new Comentario();
         return "perfil";
     }
-    
-    
 
     public EntityManager getEntityManager() {
         return entityManager;
@@ -60,21 +59,19 @@ public class comentarioBean {
         this.entityManager = entityManager;
     }
 
-    
-    
     //alta
     public void altaComentario(Comentario coment) {
         entityManager.persist(coment);
     }
-    
+
     //baja
-    public void eliminarComentario(Comentario c){
+    public void eliminarComentario(Comentario c) {
         entityManager.remove(c);
     }
-    
+
     //oobtener
-    public Comentario obtenerComentario(int id){
-        Comentario c=entityManager.find(Comentario.class, id);
+    public Comentario obtenerComentario(int id) {
+        Comentario c = entityManager.find(Comentario.class, id);
         return c;
     }
 
@@ -85,8 +82,17 @@ public class comentarioBean {
     public void setComentario(Comentario comentario) {
         this.comentario = comentario;
     }
-    
-    
-    
-    
+
+    public void eliminarComentarios(Blog p) {
+        List<Comentario> lista_c;
+        Query sql = entityManager.createNamedQuery("Comentario.findByIdBlog");
+        sql.setParameter("idBlog", p.getId());
+
+        lista_c = sql.getResultList();
+        for (Comentario c : lista_c) {
+            entityManager.remove(c);
+        }
+
+    }
+
 }

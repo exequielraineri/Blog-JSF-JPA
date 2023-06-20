@@ -8,7 +8,6 @@ package Entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,14 +17,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Exequiel
+ * @author ADMIN
  */
 @Entity
 @Table(name = "usuario")
@@ -33,10 +31,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
     , @NamedQuery(name = "Usuario.findById", query = "SELECT u FROM Usuario u WHERE u.id = :id")
+    , @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email")
     , @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre")
-    , @NamedQuery(name = "Usuario.findByUser", query = "SELECT u FROM Usuario u WHERE u.user = :user")
     , @NamedQuery(name = "Usuario.findByPass", query = "SELECT u FROM Usuario u WHERE u.pass = :pass")
-    , @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email")})
+    , @NamedQuery(name = "Usuario.findByUser", query = "SELECT u FROM Usuario u WHERE u.user = :user")})
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,30 +43,22 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    
-    @Size(min = 1, max = 100)
-    @Column(name = "nombre")
-    private String nombre;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "user")
-    private String user;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "pass")
-    private String pass;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Correo electrónico no válido")//if the field contains email address consider using this annotation to enforce field validation
-    @Basic(optional = false)
-    
-    @Size(min = 1, max = 100)
+    @Size(max = 255)
     @Column(name = "email")
     private String email;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    @Size(max = 255)
+    @Column(name = "nombre")
+    private String nombre;
+    @Size(max = 255)
+    @Column(name = "pass")
+    private String pass;
+    @Size(max = 255)
+    @Column(name = "user")
+    private String user;
+    @OneToMany(mappedBy = "idUsuario")
     private List<Blog> blogList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    @OneToMany(mappedBy = "idUsuario")
     private List<Comentario> comentarioList;
 
     public Usuario() {
@@ -76,14 +66,6 @@ public class Usuario implements Serializable {
 
     public Usuario(Integer id) {
         this.id = id;
-    }
-
-    public Usuario(Integer id, String nombre, String user, String pass, String email) {
-        this.id = id;
-        this.nombre = nombre;
-        this.user = user;
-        this.pass = pass;
-        this.email = email;
     }
 
     public Integer getId() {
@@ -94,20 +76,20 @@ public class Usuario implements Serializable {
         this.id = id;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getNombre() {
         return nombre;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
     }
 
     public String getPass() {
@@ -118,12 +100,12 @@ public class Usuario implements Serializable {
         this.pass = pass;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUser() {
+        return user;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUser(String user) {
+        this.user = user;
     }
 
     @XmlTransient

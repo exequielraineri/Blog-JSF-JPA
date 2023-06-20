@@ -6,23 +6,14 @@
 package Controller;
 
 import Entity.Usuario;
-import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.Stateless;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
-import javax.persistence.Query;
 import javax.persistence.PersistenceContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -40,22 +31,18 @@ public class authController {
     @Inject
     private usuarioBean usuarioBean;
 
-    private String user = "";
-    private String pass = "";
-    private String email = "";
-    private String nombre = "";
     private Usuario usuario = new Usuario();
 
+    private String mensajeLogin = "";
+
     public String iniciar() {
-        System.out.println("pasa");
-        System.out.println("user: "+user);
-        System.out.println("pass: "+pass);
-        Usuario u =usuarioBean.obteneruUsuario(user);
-        System.out.println("usuario : "+u.getEmail());
-        if (u!=null && u.getPass().equals(pass)) {
+        Usuario u = usuarioBean.obteneruUsuario(usuario.getUser());
+        if (u != null && u.getPass().equals(usuario.getPass())) {
             usuario = u;
+            mensajeLogin = "";
             return "perfil";
         } else {
+            mensajeLogin = "Usuario y/o Contraseña incorrecta!";
             return "login";
         }
 
@@ -69,22 +56,6 @@ public class authController {
         this.usuario = usuario;
     }
 
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public String getPass() {
-        return pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-
     public EntityManager getEntityManager() {
         return entityManager;
     }
@@ -93,34 +64,16 @@ public class authController {
         this.entityManager = entityManager;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public String registrarUsuario() {
-        
-        Usuario usuarioExistente=usuarioBean.obteneruUsuario(user);
-        if (usuarioExistente!=null) {
+        mensajeLogin="";
+        Usuario usuarioExistente = usuarioBean.obteneruUsuario(usuario.getUser());
+        if (usuarioExistente != null) {
+            mensajeLogin = "Usuario ya existente";
             return "index";
-        }else{
-            usuarioBean.registrarUsuario(nombre, email, user, pass);
-            nombre="";
-            email="";
-            user="";
-            pass="";
-            return "login";
+        } else {
+            usuarioBean.registrarUsuario(usuario);
+            mensajeLogin = "Se registro con exitos!";
+            return "index";
         }
     }
 
@@ -132,11 +85,31 @@ public class authController {
         this.usuarioBean = usuarioBean;
     }
 
-    private void mostrarUsuario(Usuario u) {
-        System.out.println("\nNombre: " + u.getNombre()
-                + "\nEmail: " + u.getEmail()
-                + "\nUser: " + u.getUser()
-                + "\nPass: " + u.getPass());
+    public String inicio() {
+        return "inicio";
     }
 
+    public String perfil() {
+        return "perfil";
+    }
+
+    public String cerrarSession() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "login";
+    }
+
+    public String getMensajeLogin() {
+        return mensajeLogin;
+    }
+
+    public void setMensajeLogin(String mensajeLogin) {
+        this.mensajeLogin = mensajeLogin;
+    }
+
+    
+    public String login(){
+        mensajeLogin="";
+        return "login";
+    }
+    
 }

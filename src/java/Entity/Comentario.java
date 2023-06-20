@@ -8,7 +8,6 @@ package Entity;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -19,43 +18,35 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Exequiel
+ * @author ADMIN
  */
 @Entity
 @Table(name = "comentario")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Comentario.findAll", query = "SELECT c FROM Comentario c")
-    , @NamedQuery(name = "Comentario.findById", query = "SELECT c FROM Comentario c WHERE c.comentarioPK.id = :id")
-    , @NamedQuery(name = "Comentario.findByIdBlog", query = "SELECT c FROM Comentario c WHERE c.comentarioPK.idBlog = :idBlog")
     , @NamedQuery(name = "Comentario.findByContenido", query = "SELECT c FROM Comentario c WHERE c.contenido = :contenido")
-    , @NamedQuery(name = "Comentario.findByFechaPublicacion", query = "SELECT c FROM Comentario c WHERE c.fechaPublicacion = :fechaPublicacion")})
+    , @NamedQuery(name = "Comentario.findByFechaPublicacion", query = "SELECT c FROM Comentario c WHERE c.fechaPublicacion = :fechaPublicacion")
+    , @NamedQuery(name = "Comentario.findByIdBlog", query = "SELECT c FROM Comentario c WHERE c.comentarioPK.idBlog = :idBlog")
+    , @NamedQuery(name = "Comentario.findById", query = "SELECT c FROM Comentario c WHERE c.comentarioPK.id = :id")})
 public class Comentario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ComentarioPK comentarioPK;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
+    @Size(max = 255)
     @Column(name = "contenido")
     private String contenido;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "fechaPublicacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaPublicacion;
-    @JoinColumn(name = "id_blog", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Blog blog;
     @JoinColumn(name = "id_usuario", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Usuario idUsuario;
 
     public Comentario() {
@@ -65,14 +56,8 @@ public class Comentario implements Serializable {
         this.comentarioPK = comentarioPK;
     }
 
-    public Comentario(ComentarioPK comentarioPK, String contenido, Date fechaPublicacion) {
-        this.comentarioPK = comentarioPK;
-        this.contenido = contenido;
-        this.fechaPublicacion = fechaPublicacion;
-    }
-
-    public Comentario(int id, int idBlog) {
-        this.comentarioPK = new ComentarioPK(id, idBlog);
+    public Comentario(int idBlog, int id) {
+        this.comentarioPK = new ComentarioPK(idBlog, id);
     }
 
     public ComentarioPK getComentarioPK() {
@@ -95,21 +80,8 @@ public class Comentario implements Serializable {
         return fechaPublicacion;
     }
 
-    public String mostrarFecha(){
-        SimpleDateFormat sf=new SimpleDateFormat("dd-MM-yyyy  HH:mm");
-        return sf.format(fechaPublicacion);
-    }
-    
     public void setFechaPublicacion(Date fechaPublicacion) {
         this.fechaPublicacion = fechaPublicacion;
-    }
-
-    public Blog getBlog() {
-        return blog;
-    }
-
-    public void setBlog(Blog blog) {
-        this.blog = blog;
     }
 
     public Usuario getIdUsuario() {
@@ -145,4 +117,9 @@ public class Comentario implements Serializable {
         return "Entity.Comentario[ comentarioPK=" + comentarioPK + " ]";
     }
     
+    
+    public String mostrarFecha(){
+        SimpleDateFormat sf=new SimpleDateFormat("dd/MM/yyyy hh:mm");
+        return sf.format(fechaPublicacion);
+    }
 }

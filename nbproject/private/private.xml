@@ -3,17 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Exequiel/Documents/NetBeansProjects/Blog-JSF-JPA/src/conf/persistence.xml</file>
-            <file>file:/C:/Users/Exequiel/Documents/NetBeansProjects/Blog-JSF-JPA/web/perfil.xhtml</file>
-            <file>file:/C:/Users/Exequiel/Documents/NetBeansProjects/Blog-JSF-JPA/src/java/Controller/blogBean.java</file>
-            <file>file:/C:/Users/Exequiel/Documents/NetBeansProjects/Blog-JSF-JPA/web/login.xhtml</file>
-            <file>file:/C:/Users/Exequiel/Documents/NetBeansProjects/Blog-JSF-JPA/.git/config</file>
-            <file>file:/C:/Users/Exequiel/Documents/NetBeansProjects/Blog-JSF-JPA/web/index.xhtml</file>
-            <file>file:/C:/Users/Exequiel/Documents/NetBeansProjects/Blog-JSF-JPA/web/inicio.xhtml</file>
-            <file>file:/C:/Users/Exequiel/Documents/NetBeansProjects/Blog-JSF-JPA/web/WEB-INF/glassfish-resources.xml</file>
-            <file>file:/C:/Users/Exequiel/Documents/NetBeansProjects/Blog-JSF-JPA/src/java/Controller/authController.java</file>
-            <file>file:/C:/Users/Exequiel/Documents/NetBeansProjects/Blog-JSF-JPA/web/plantilla_admin/plantilla_admin.xhtml</file>
-            <file>file:/C:/Users/Exequiel/Documents/NetBeansProjects/Blog-JSF-JPA/src/java/Entity/Blog.java</file>
+            <file>file:/C:/Users/ADMIN/Documents/NetBeansProjects/Blog-JSF-JPA-rama-nueva/web/plantilla_admin/plantilla_admin.xhtml</file>
+            <file>file:/C:/Users/ADMIN/Documents/NetBeansProjects/Blog-JSF-JPA-rama-nueva/src/java/Controller/blogBean.java</file>
+            <file>file:/C:/Users/ADMIN/Documents/NetBeansProjects/Blog-JSF-JPA-rama-nueva/web/perfil.xhtml</file>
+            <file>file:/C:/Users/ADMIN/Documents/NetBeansProjects/Blog-JSF-JPA-rama-nueva/src/java/Controller/comentarioBean.java</file>
+            <file>file:/C:/Users/ADMIN/Documents/NetBeansProjects/Blog-JSF-JPA-rama-nueva/src/java/Controller/authController.java</file>
+            <file>file:/C:/Users/ADMIN/Documents/NetBeansProjects/Blog-JSF-JPA-rama-nueva/web/inicio.xhtml</file>
+            <file>file:/C:/Users/ADMIN/Documents/NetBeansProjects/Blog-JSF-JPA-rama-nueva/web/login.xhtml</file>
+            <file>file:/C:/Users/ADMIN/Documents/NetBeansProjects/Blog-JSF-JPA-rama-nueva/web/index.xhtml</file>
+            <file>file:/C:/Users/ADMIN/Documents/NetBeansProjects/Blog-JSF-JPA-rama-nueva/src/java/Controller/usuarioBean.java</file>
         </group>
     </open-files>
 </project-private>
